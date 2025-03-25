@@ -1,40 +1,46 @@
 from collections import deque
-
-def bfs(s, n, graph):
+def bfs(s,n,graph):
     # 초기화
-    queue = deque()
-    # node가 1부터 시작하므로
-    visited = [False] * (n + 1)
-    distance = [0] * (n + 1)
-
-    # 1번 노드 방문 처리
+    queue=deque()
+    visited=[False]*(n+1)
+    distance=[0]*(n+1)
+    
+    # 초기 방문
     queue.append(s)
-    visited[s] = True
+    visited[s]=True
+    distance[s]=1
 
     while queue:
+        # 현재 탐색 노드
         node = queue.popleft()
-        # 해당 노드의 연결되어있는 노드들
-        for neighbor in graph[node]:
-            if not visited[neighbor]:
-                visited[neighbor] = True
-                distance[neighbor] = distance[node] + 1
-                queue.append(neighbor)
-
-    return distance
-
-def solution(n, edge):
-    # 인접 리스트 생성
-    graph = [[] for _ in range(n + 1)]
-    for a, b in edge:
-        # 양방향 연결
-        graph[a].append(b)
-        graph[b].append(a)
-        
-    # print(graph)
     
-    # BFS 실행
-    result = bfs(1, n, graph)
-
-    # 가장 멀리 떨어진 노드 개수 세기
-    max_distance = max(result)
-    return result.count(max_distance)
+        # 현재 노드로부터 주변 탐색
+        for neighbor in graph[node]:
+            # 방문x
+            if not visited[neighbor]:
+                # 방문 처리
+                visited[neighbor]=True
+                queue.append(neighbor)
+                distance[neighbor]=distance[node]+1
+                
+    return distance
+    
+    
+def solution(n, edge):
+    answer=0
+    
+    graph=[[] for _ in range(n+1)] # 빈 리스트 형성 => 연결된 노드만 추가
+    
+    # 인접 리스트 형성 (만약 노드가 비정형적이면 딕셔너리가 유리!)
+    for n1,n2 in edge:
+        # 양방향 연결
+        graph[n1].append(n2)
+        graph[n2].append(n1)
+        
+    result=bfs(1,n,graph) # 1번 노드로부터 떨어진 거리를 반환
+    
+    print(result)
+    max_distance=max(result)
+    answer=result.count(max_distance)
+    
+    return answer
