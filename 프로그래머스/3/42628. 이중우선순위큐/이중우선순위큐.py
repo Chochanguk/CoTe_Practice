@@ -1,5 +1,12 @@
 import heapq as hq
 
+def max_heap(max_l):
+    max_heap=[]
+    for n in max_l:
+        hq.heappush(max_heap,-int(n))
+        
+    return [-i for i in max_heap]
+
 def solution(operations):
     prio_q = []
 
@@ -12,8 +19,7 @@ def solution(operations):
         elif command == "D" and prio_q:
             if num == 1:
                 # 최대값 삭제
-                max_val = max(prio_q)
-                prio_q.remove(max_val)
+                prio_q=max_heap(prio_q)[1:]
                 hq.heapify(prio_q)
             elif num == -1:
                 # 최소값 삭제
