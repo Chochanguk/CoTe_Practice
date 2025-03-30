@@ -40,11 +40,16 @@ def solution(jobs):
                     worked_t[num] = time + 1  # 현재 시간에 완료됨
                     working = [-1, -1]
                     n += 1
+        # 작업 중이라면
         else:
+            # 남은시간 감소
             working[1] -= 1
+            # 만약 남은시간이 없다면
             if working[1] == 0:
+                # 작업완료 시각 기록 및 다음 프로세스를 위해 초기화
                 worked_t[working[0]] = time + 1  # 작업 완료 시간 기록
                 working = [-1, -1]
+                # 작업 완료 횟수 갱신
                 n += 1
 
         time += 1  # 시간은 루프 마지막에 증가
