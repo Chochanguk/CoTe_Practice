@@ -11,6 +11,7 @@ def get_combis(arr,r):
         if len(path)==r:
             result.append(path)
             return
+        
         for i in range(idx,len(arr)):
             combi(path+[arr[i]],i+1)
     combi([],0)
@@ -30,7 +31,9 @@ def solution(orders, course):
     for c in course:
         # 개수 딕셔너리
         combi_dict={}
+        # 한 사람당 주문한거
         for order in orders:
+            
             sorted_order=sorted(order)
             combis=get_combis(sorted_order,c)
             # print("combis:", combis)
