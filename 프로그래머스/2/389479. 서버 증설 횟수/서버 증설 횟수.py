@@ -30,11 +30,17 @@ def solution(players, m, k):
         p=players[i]
         rs=p//m
         
+        # 1. 서버 정보 갱신
+        remove_keys=[]
         for key,v in server.items(): 
-            # 1. 서버의 종료 시각인가?
             end_t, running_cnt=v[0],v[1]
             if i==end_t:
                 server_cnt-=running_cnt
+                remove_keys.append(key)
+                
+        # 필요없는 서버 제거
+        for key in remove_keys:
+            del server[key]
         
         # 2. 필요한 서버수보다 작으면 서버 증설
         if server_cnt<rs:
