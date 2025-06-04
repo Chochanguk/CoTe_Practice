@@ -1,0 +1,54 @@
+# SELECT 
+#     D.ID, 
+#     D.EMAIL, 
+#     D.FIRST_NAME, 
+#     D.LAST_NAME
+# FROM DEVELOPERS AS D
+# WHERE EXISTS (
+#     SELECT 1 -- 단순 있는지 없는지만 보기에(*으로 하면 성능이 안좋기 때문)
+#     FROM SKILLCODES AS C
+#     WHERE C.CATEGORY = 'Front End'
+#       AND (D.SKILL_CODE & C.CODE) > 0
+# )
+# ORDER BY D.ID ASC;
+
+# SELECT DISTINCT
+#     D.ID,
+#     D.EMAIL,
+#     D.FIRST_NAME,
+#     D.LAST_NAME
+# FROM DEVELOPERS AS D
+# JOIN SKILLCODES AS C
+#   ON (D.SKILL_CODE & C.CODE) > 0 -- 0보다 크면 그 스킬을 갖고 있는것!!
+# WHERE C.CATEGORY = 'Front End'
+# ORDER BY D.ID ASC;
+
+
+
+
+
+
+
+
+SELECT DISTINCT
+ D.ID, 
+ D.EMAIL,
+ D.FIRST_NAME,
+ D.LAST_NAME
+FROM DEVELOPERS D
+JOIN SKILLCODES C
+  ON (D.SKILL_CODE &C.CODE)>0
+WHERE C.CATEGORY='Front End'
+ORDER BY D.ID ASC;
+
+
+
+
+
+
+
+
+
+
+
+
