@@ -14,19 +14,29 @@ ex) 병사 7명, 적2 명 -> 남은 병사 5명(병사 수가 음수가 되면 �
 
 '''
 
-import heapq
+import heapq as hq
 
 def solution(n, k, enemy):
-    heap = []
+    heap=[]
+    total_round=0
     
     for i in range(len(enemy)):
-        heapq.heappush(heap, enemy[i])
-        # 무적권을 아직 다 쓰지 않았다면 그냥 넘김
-        if len(heap) > k:
-            # 가장 작은 적을 병사로 처리
-            n -= heapq.heappop(heap)
-        # 병사가 부족하면 종료
-        if n < 0:
-            return i
+        
+        #1. heap 넣음
+        hq.heappush(heap, enemy[i])
+        
+        # print(heap)
+        
+        #2. 무적권 사용 체크 범위에서 작은 값의 적을 추출
+        if len(heap)>k:
+            n-=hq.heappop(heap)
+            
+        #3. 병사 수가 더 작으면 종료
+        if n<0:
+            return total_round
+        
+        #4. 싸움 개수 증가 
+        total_round+=1
     
-    return len(enemy)
+    # 5. 적들을 다 상대해도 병사가 살아있으면 총 개수 반환
+    return total_round
