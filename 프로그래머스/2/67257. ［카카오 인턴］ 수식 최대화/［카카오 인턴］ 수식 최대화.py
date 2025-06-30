@@ -39,35 +39,33 @@ def dfs(op_cnt,op_set,prior_ops):
 prior_operations=[]
 
 def cal(numbers, operators, prior_operations):
-    max_result = -float('inf')
-    
-    for ordered_ops in prior_operations:
-        temp_nums = numbers[:]  # 리스트 복사
-        temp_ops = operators[:]
-        
-        for op in ordered_ops:
-            idx = 0
-            while idx < len(temp_ops):
-                if temp_ops[idx] == op:
-                    # 해당 연산을 처리
-                    if op == '+':
-                        temp = temp_nums[idx] + temp_nums[idx + 1]
-                    elif op == '-':
-                        temp = temp_nums[idx] - temp_nums[idx + 1]
-                    elif op == '*':
-                        temp = temp_nums[idx] * temp_nums[idx + 1]
-                    
-                    # 연산 후 리스트를 수정
-                    temp_nums[idx] = temp
-                    del temp_nums[idx + 1]
-                    del temp_ops[idx]
-                else:
-                    idx += 1
-        
-        max_result = max(max_result, abs(temp_nums[0]))  # 결과는 하나의 숫자만 남음
-    
-    return max_result
+    max_result = 0
 
+    for priority in prior_operations:
+        nums = numbers[:]
+        ops = operators[:]
+
+        for op in priority:
+            new_nums = [nums[0]]
+            new_ops = []
+            for i in range(len(ops)):
+                if ops[i] == op:
+                    a = new_nums.pop()
+                    b = nums[i + 1]
+                    if op == '+':
+                        new_nums.append(a + b)
+                    elif op == '-':
+                        new_nums.append(a - b)
+                    elif op == '*':
+                        new_nums.append(a * b)
+                else:
+                    new_ops.append(ops[i])
+                    new_nums.append(nums[i + 1])
+            nums, ops = new_nums, new_ops
+
+        max_result = max(max_result, abs(nums[0]))
+
+    return max_result
 
 
 def solution(expression):
@@ -104,10 +102,10 @@ def solution(expression):
     op_cnt=len(list(op_set))
     dfs(op_cnt,list(op_set),[]) # 연산 우선 순위
     
-    # print(f'numbers {numbers}')
-    # print(f'operators {operators}')
-    # print(f'op_set {op_set}')
-    # print(f'prior_operations {prior_operations}')
+    print(f'numbers {numbers}')
+    print(f'operators {operators}')
+    print(f'op_set {op_set}')
+    print(f'prior_operations {prior_operations}')
     
     answer=cal(numbers,operators,prior_operations)
     
