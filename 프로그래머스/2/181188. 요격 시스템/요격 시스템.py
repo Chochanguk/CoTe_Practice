@@ -8,9 +8,10 @@ def solution(targets):
     # print(targets)
     
     for start, end in targets:
-        # 이전 요격 위치로 이 타겟을 커버할 수 없다면 새 요격
+        # 이전 요격 위치로 이 타겟을 커버할 수 없다면 새 요격(스타트에서)
         if last_shot < start:
+        
             answer += 1
-            last_shot = end - 1  # 구간 내 가장 마지막 위치에서 발사
+            last_shot = end - 1  # 구간 내 가장 마지막 위치로 이동
             
     return answer
